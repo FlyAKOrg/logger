@@ -15,22 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Vue from "vue";
-import App from "./App";
-import router from "./router";
-import store from "./store";
-import vuetify from "./plugins/vuetify";
-import "roboto-fontface/css/roboto/roboto-fontface.css";
-import "@mdi/font/css/materialdesignicons.css";
-import ajax from "./utils/api";
+const { machineIdSync } = require("node-machine-id");
 
-Vue.config.productionTip = false;
+const getMachineId = () => machineIdSync();
 
-Vue.prototype.$http = ajax;
-
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
-}).$mount("#app");
+export default getMachineId;

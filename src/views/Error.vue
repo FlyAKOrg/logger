@@ -16,7 +16,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-container class="fill-height" fluid>
+    <v-row>
+      <v-col cols="12">
+        <v-alert border="top" color="error" prominent icon="mdi-alert">
+          {{ error.message }}
+        </v-alert>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col style="text-align: right;">
+        <v-btn color="error" @click="recover">Retry</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+  computed: mapGetters(["error"]),
+  methods: {
+    recover() {
+      this.$store.commit("error", { show: false });
+      this.$router.push({ name: this.error.recoveryRoute });
+    }
+  }
+};
+</script>

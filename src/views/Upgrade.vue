@@ -16,7 +16,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-alert type="warning" dark>
+    There is an upgraded version of NZV's Flight Logger available. Please upgrade!
+    <p>
+      Installed Version: {{ $route.params.installed }}<br />Current Available:
+      {{ $route.params.current }}
+    </p>
+  </v-alert>
 </template>

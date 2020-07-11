@@ -16,21 +16,34 @@
  */
 
 import Vue from "vue";
-import App from "./App";
-import router from "./router";
-import store from "./store";
-import vuetify from "./plugins/vuetify";
-import "roboto-fontface/css/roboto/roboto-fontface.css";
-import "@mdi/font/css/materialdesignicons.css";
-import ajax from "./utils/api";
+import Vuetify from "vuetify/lib";
 
-Vue.config.productionTip = false;
+Vue.use(Vuetify);
 
-Vue.prototype.$http = ajax;
-
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: h => h(App)
-}).$mount("#app");
+export default new Vuetify({
+  theme: {
+    options: {
+      customProperties: true
+    },
+    themes: {
+      light: {
+        primary: "#4db6ac",
+        secondary: "#42a5f5",
+        accent: "#ab47bc",
+        error: "#ef5350",
+        info: "#cfd8dc",
+        success: "#81c784",
+        warning: "#f9a825"
+      },
+      dark: {
+        primary: "#37474f",
+        secondary: "#42a5f5",
+        accent: "#ab47bc",
+        error: "#ef5350",
+        info: "#cfd8dc",
+        success: "#81c784",
+        warning: "#f9a825"
+      }
+    }
+  }
+});

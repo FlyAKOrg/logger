@@ -16,7 +16,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div>
+    Success!
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      success: true
+    };
+  }
+};
+</script>
