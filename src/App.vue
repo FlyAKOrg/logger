@@ -65,6 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import { ipcRenderer } from "electron";
 import { mapState } from "vuex";
 import Menu from "./components/Menu";
+import EventBus from "./utils/EventBus";
 
 export default {
   name: "App",
@@ -80,6 +81,12 @@ export default {
   mounted() {
     this.$vuetify.theme.dark = this.theme === "dark";
     ipcRenderer.send("logger-ready");
+    EventBus.$on("toggle-menu", () => {
+      this.showmenu = !this.showmenu;
+    });
+    EventBus.$on("set-menu", value => {
+      this.showmenu = value;
+    });
   },
 
   computed: mapState({

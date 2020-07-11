@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <v-list-item-icon><v-icon>mdi-cog</v-icon></v-list-item-icon>
       <v-list-item-title>Settings</v-list-item-title>
     </v-list-item>
-    <v-list-item @click="$router.push({ name: 'About' })">
+    <v-list-item @click="handleAbout">
       <v-list-item-icon><v-icon>mdi-help-circle</v-icon></v-list-item-icon>
       <v-list-item-title>About</v-list-item-title>
     </v-list-item>
@@ -38,9 +38,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <script>
 import { ipcRenderer } from "electron";
+import EventBus from "../utils/EventBus";
 
 export default {
   methods: {
+    handleAbout() {
+      EventBus.$emit("set-menu", false);
+      ipcRenderer.send("show-about");
+    },
     handleClose() {
       ipcRenderer.send("close");
     }

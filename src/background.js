@@ -18,9 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { app, protocol, BrowserWindow, ipcMain } from "electron";
+import { app, protocol, BrowserWindow, ipcMain, dialog } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
+import os from "os";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -140,4 +141,21 @@ ipcMain.on("logger-ready", () => {
 ipcMain.on("close", () => {
   loggerWin.destroy();
   app.quit();
+});
+
+ipcMain.on("show-about", () => {
+  const detailString = `Version: ${app.getVersion()}
+Electron: ${process.versions.electron}
+Chromium: ${process.versions.chrome}
+Node: ${process.versions.node}
+V8 Engine: ${process.versions.v8}
+Operating System: ${os.type()} ${os.arch()} ${os.release()}`;
+
+  dialog.showMessageBox({
+    title: "About Woban",
+    type: "info",
+    message: "NZVirtual Woban Flight Logger",
+    detail: detailString,
+    noLink: true
+  });
 });
