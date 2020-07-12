@@ -96,7 +96,6 @@ export default {
 
   watch: {
     theme(newTheme) {
-      console.log(`Caught change to theme ${newTheme}`);
       this.$vuetify.theme.dark = newTheme === "dark";
     }
   },

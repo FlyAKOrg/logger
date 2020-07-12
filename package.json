@@ -17,6 +17,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "electron-store": "^5.2.0",
+    "fsuipc": "^0.3.0",
     "node-machine-id": "^1.1.12",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
