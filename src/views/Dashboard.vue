@@ -22,11 +22,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
       success: true
     };
+  },
+  computed: {
+    ...mapGetters(["loggedIn"])
+  },
+  mounted() {
+    if (!this.loggedIn) this.$router.push({ name: "Home" });
   }
 };
 </script>

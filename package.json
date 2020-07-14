@@ -18,10 +18,12 @@
     "core-js": "^3.6.5",
     "electron-store": "^5.2.0",
     "fsuipc": "^0.3.0",
+    "leaflet": "^1.6.0",
     "node-machine-id": "^1.1.12",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vue2-leaflet": "^2.5.2",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
   },

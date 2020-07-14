@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       color="primary"
       dense
       :dark="!$vuetify.theme.dark"
-      style="-webkit-app-region: drag"
+      :class="{ draggable: !showmenu }"
     >
       <v-app-bar-nav-icon
         @click="showmenu = true"
@@ -75,7 +75,8 @@ export default {
   },
 
   data: () => ({
-    showmenu: false
+    showmenu: false,
+    routerTimer: null
   }),
 
   mounted() {
@@ -91,12 +92,23 @@ export default {
 
   computed: mapState({
     theme: state => state.config.mode,
-    version: state => state.version
+    version: state => state.version,
+    loggedIn: state => state.loggedIn
   }),
 
   watch: {
     theme(newTheme) {
       this.$vuetify.theme.dark = newTheme === "dark";
+    },
+    loggedIn(newValue, oldValue) {
+      if (newValue && !oldValue) {
+        this.$store.dispatch("routes");
+        this.routerTimer = setInterval(() => this.$store.dispatch("routes"), 60 * 60 * 1000); // Update once per hour
+      } else if (oldValue && !newValue) {
+        // Logged out.
+        clearInterval(this.routerTimer);
+        this.routerTimer = null;
+      }
     }
   },
 
@@ -134,5 +146,8 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(100px);
   opacity: 0;
+}
+.draggable {
+  -webkit-app-region: drag;
 }
 </style>

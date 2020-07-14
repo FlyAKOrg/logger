@@ -29,6 +29,19 @@ const addOffsets = () => {
 
   conn.add("vertSpeed", 0x030c, fsuipc.Type.Int32);
   conn.add("onground", 0x0366, fsuipc.Type.Int16);
+
+  conn.add("flappositions", 0x3bf8, fsuipc.Type.Int16); // Number of positions minus full up (0)
+  conn.add("flapdetent", 0x3bfa, fsuipc.Type.Int16); // 16383/(flapdetent) + 1
+  conn.add("gear", 0x0be8, fsuipc.Type.Int32); // 0 = up, 16383 = down
+};
+
+const closeFSUIPC = () => {
+  if (timerFSUIPC !== undefined) {
+    clearInterval(timerFSUIPC);
+    timerFSUIPC = undefined;
+  }
+  ipcMain.emit("fsuipc", { type: "closed" });
+  return obj.close();
 };
 
 const doLoop = async () => {
@@ -36,11 +49,7 @@ const doLoop = async () => {
   try {
     result = await conn.process();
   } catch (error) {
-    if (timerFSUIPC !== undefined) {
-      clearInterval(timerFSUIPC);
-      timerFSUIPC = undefined;
-    }
-    obj.close();
+    closeFSUIPC();
   }
 
   result.lat = Math.round(((result.lat * 90.0) / (10001750.0 * 65536.0 * 65536.0)) * 1000) / 1000;
@@ -102,7 +111,7 @@ const startFSUIPC = () => {
     })
     .catch(() => {
       setTimeout(startFSUIPC, 2000);
-      return obj.close();
+      return closeFSUIPC();
     });
 };
 
@@ -114,11 +123,7 @@ const setupFSUIPCListeners = () => {
         startFSUIPC();
         break;
       case "stop":
-        if (timerFSUIPC !== undefined) {
-          clearInterval(timerFSUIPC);
-          timerFSUIPC = undefined;
-          obj.close();
-        }
+        closeFSUIPC();
         break;
       default:
         console.log("Invalid fsuipc message");

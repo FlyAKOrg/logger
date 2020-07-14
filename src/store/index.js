@@ -39,8 +39,10 @@ export default new Vuex.Store({
       show: false,
       recoveryRoute: ""
     },
+    routes: [],
     bookings: [],
-    version: "Unknown"
+    version: "Unknown",
+    loggedIn: false
   },
   mutations: {
     config(state, payload) {
@@ -58,11 +60,17 @@ export default new Vuex.Store({
 
       state.config = { ...state.config, ...payload };
     },
+    loggedIn(state, payload) {
+      state.loggedIn = payload;
+    },
     version(state, version) {
       state.version = version;
     },
     error(state, payload) {
       state.error = { ...state.error, ...payload };
+    },
+    routes(state, payload) {
+      state.routes = payload;
     },
     bookings(state, payload) {
       state.bookings = payload;
@@ -79,6 +87,8 @@ export default new Vuex.Store({
     config: state => state.config,
     version: state => state.version,
     error: state => state.error,
+    routes: state => state.routes,
+    loggedIn: state => state.loggedIn,
     bookings: state => state.bookings
   },
   actions: {
@@ -89,10 +99,23 @@ export default new Vuex.Store({
           .then(response => {
             commit("bookings", response.data.bookings);
             commit("config", payload);
+            commit("loggedIn", true);
             resolve(true);
           })
           .catch(error => reject(error));
       });
+    },
+    routes({ commit, state }) {
+      if (!state.loggedIn) return;
+
+      Vue.prototype.$http
+        .get("/route")
+        .then(response => {
+          commit("routes", response.data);
+        })
+        .catch(error => {
+          console.log(`Error getting routes ${error}`);
+        });
     }
   }
 });

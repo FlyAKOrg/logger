@@ -83,6 +83,8 @@ export default {
     this.username = username;
     this.password = password;
     this.remember = remember;
+    this.$store.commit("loggedIn", false);
+    if (this.remember && this.password !== null) this.login();
   },
   methods: {
     login() {

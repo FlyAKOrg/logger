@@ -17,9 +17,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <template>
   <v-list nav dense>
-    <v-list-item @click="$router.push({ name: 'Home' })">
+    <v-list-item @click="route('Home')" v-if="!loggedIn">
       <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
       <v-list-item-title>Home</v-list-item-title>
+    </v-list-item>
+    <v-list-item @click="route('Dashboard')" v-if="loggedIn">
+      <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
+      <v-list-item-title>Home</v-list-item-title>
+    </v-list-item>
+    <v-list-item @click="route('Routes')" v-if="loggedIn">
+      <v-list-item-icon><v-icon>mdi-calendar-month</v-icon></v-list-item-icon>
+      <v-list-item-title>Routes</v-list-item-title>
+    </v-list-item>
+    <v-list-item v-if="loggedIn">
+      <v-list-item-icon><v-icon>mdi-book</v-icon></v-list-item-icon>
+      <v-list-item-title>Bookings</v-list-item-title>
+    </v-list-item>
+    <v-list-item v-if="loggedIn">
+      <v-list-item-icon><v-icon>mdi-airplane</v-icon></v-list-item-icon>
+      <v-list-item-title>Tracker</v-list-item-title>
     </v-list-item>
     <v-list-item>
       <v-list-item-icon><v-icon>mdi-cog</v-icon></v-list-item-icon>
@@ -37,11 +53,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { ipcRenderer } from "electron";
 import EventBus from "../utils/EventBus";
 
 export default {
+  computed: {
+    ...mapGetters(["loggedIn"])
+  },
   methods: {
+    route(name) {
+      this.$router.push({ name });
+    },
     handleAbout() {
       EventBus.$emit("set-menu", false);
       ipcRenderer.send("show-about");

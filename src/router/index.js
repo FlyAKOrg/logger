@@ -22,7 +22,7 @@ import Upgrade from "../views/Upgrade";
 import Error from "../views/Error";
 import Login from "../views/Login";
 import Dashboard from "../views/Dashboard";
-import About from "../views/About";
+import Routes from "../views/Routes";
 
 Vue.use(VueRouter);
 
@@ -53,9 +53,9 @@ const routes = [
     component: Dashboard
   },
   {
-    path: "/about",
-    name: "About",
-    component: About
+    path: "/routes",
+    name: "Routes",
+    component: Routes
   }
 ];
 

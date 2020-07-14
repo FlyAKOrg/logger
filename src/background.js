@@ -63,13 +63,15 @@ async function createWindow() {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
     },
     frame: false,
-    show: false
+    show: false,
+    resizable: false,
+    maximizable: false
   });
   loggerWin.setMenuBarVisibility(false);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     await loggerWin.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
-    if (!process.env.IS_TEST) loggerWin.webContents.openDevTools();
+    if (!process.env.IS_TEST) setTimeout(() => loggerWin.webContents.openDevTools(), 5000);
   } else {
     loggerWin.loadURL("app://./index.html");
   }
